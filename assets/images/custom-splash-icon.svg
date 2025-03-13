@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Arka plan -->
+  <rect width="512" height="512" rx="128" fill="#4A3F69"/>
+  
+  <!-- Gardırop/Dolap çerçevesi - daha basit ve belirgin -->
+  <rect x="112" y="96" width="288" height="320" rx="32" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="12"/>
+  <line x1="256" y1="96" x2="256" y2="416" stroke="#2E2A4A" stroke-width="12"/>
+  
+  <!-- Üst raf -->
+  <line x1="112" y1="144" x2="400" y2="144" stroke="#2E2A4A" stroke-width="10"/>
+  <circle cx="128" cy="144" r="8" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="4"/>
+  <circle cx="384" cy="144" r="8" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="4"/>
+  
+  <!-- Alt raf -->
+  <line x1="112" y1="368" x2="400" y2="368" stroke="#2E2A4A" stroke-width="10"/>
+  <circle cx="128" cy="368" r="8" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="4"/>
+  <circle cx="384" cy="368" r="8" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="4"/>
+  
+  <!-- Sol gardırop kısmındaki kıyafetler - daha basit ve belirgin -->
+  <path d="M140 144 L140 240 L170 260 L170 144" fill="#FF6B6B" stroke="#2E2A4A" stroke-width="4"/> <!-- Kırmızı elbise -->
+  <path d="M180 144 L180 250 L210 245 L210 144" fill="#4ECDC4" stroke="#2E2A4A" stroke-width="4"/> <!-- Turkuaz elbise -->
+  <path d="M220 144 L220 235 L235 230 L235 144" fill="#FFD166" stroke="#2E2A4A" stroke-width="4"/> <!-- Sarı elbise -->
+  
+  <!-- Sağ gardırop kısmındaki kıyafetler - daha basit ve belirgin -->
+  <path d="M280 144 L280 220 L295 235 L310 220 L310 144" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="4"/> <!-- Beyaz gömlek -->
+  <path d="M320 144 L320 240 L350 220 L350 144" fill="#FF9F1C" stroke="#2E2A4A" stroke-width="4"/> <!-- Turuncu kıyafet -->
+  <path d="M360 144 L360 230 L375 225 L375 144" fill="#2EC4B6" stroke="#2E2A4A" stroke-width="4"/> <!-- Turkuaz kıyafet -->
+  
+  <!-- Alt kısımdaki katlanmış kıyafetler - Sol -->
+  <rect x="140" y="380" width="40" height="20" rx="4" fill="#293462" stroke="#2E2A4A" stroke-width="3"/> <!-- Lacivert -->
+  <rect x="190" y="380" width="40" height="20" rx="4" fill="#F7B801" stroke="#2E2A4A" stroke-width="3"/> <!-- Sarı -->
+  
+  <!-- Alt kısımdaki katlanmış kıyafetler - Sağ -->
+  <rect x="280" y="380" width="40" height="20" rx="4" fill="#3A86FF" stroke="#2E2A4A" stroke-width="3"/> <!-- Mavi -->
+  <rect x="330" y="380" width="40" height="20" rx="4" fill="#FDFFFC" stroke="#2E2A4A" stroke-width="3"/> <!-- Beyaz -->
+</svg> 

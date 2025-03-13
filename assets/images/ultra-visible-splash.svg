@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Parlak arka plan daire -->
+  <circle cx="256" cy="256" r="256" fill="#4A3F69"/>
+  <circle cx="256" cy="256" r="200" fill="#372B54"/>
+  
+  <!-- Gardırop/Dolap çerçevesi - çok belirgin -->
+  <rect x="112" y="96" width="288" height="320" rx="32" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="16"/>
+  <line x1="256" y1="96" x2="256" y2="416" stroke="#2E2A4A" stroke-width="16"/>
+  
+  <!-- Üst raf - belirgin -->
+  <line x1="112" y1="144" x2="400" y2="144" stroke="#2E2A4A" stroke-width="12"/>
+  <circle cx="128" cy="144" r="10" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="6"/>
+  <circle cx="384" cy="144" r="10" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="6"/>
+  
+  <!-- Alt raf - belirgin -->
+  <line x1="112" y1="368" x2="400" y2="368" stroke="#2E2A4A" stroke-width="12"/>
+  <circle cx="128" cy="368" r="10" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="6"/>
+  <circle cx="384" cy="368" r="10" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="6"/>
+  
+  <!-- Sol gardırop kısmındaki kıyafetler - daha canlı -->
+  <path d="M140 144 L140 240 L170 260 L170 144" fill="#FF4747" stroke="#2E2A4A" stroke-width="6"/> <!-- Kırmızı elbise -->
+  <path d="M180 144 L180 250 L210 245 L210 144" fill="#00E5D0" stroke="#2E2A4A" stroke-width="6"/> <!-- Turkuaz elbise -->
+  <path d="M220 144 L220 235 L235 230 L235 144" fill="#FFCC00" stroke="#2E2A4A" stroke-width="6"/> <!-- Sarı elbise -->
+  
+  <!-- Sağ gardırop kısmındaki kıyafetler - daha canlı -->
+  <path d="M280 144 L280 220 L295 235 L310 220 L310 144" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="6"/> <!-- Beyaz gömlek -->
+  <path d="M320 144 L320 240 L350 220 L350 144" fill="#FF9500" stroke="#2E2A4A" stroke-width="6"/> <!-- Turuncu kıyafet -->
+  <path d="M360 144 L360 230 L375 225 L375 144" fill="#00B2FF" stroke="#2E2A4A" stroke-width="6"/> <!-- Mavi kıyafet -->
+  
+  <!-- Alt kısımdaki katlanmış kıyafetler - daha belirgin -->
+  <rect x="140" y="380" width="40" height="20" rx="4" fill="#1A237E" stroke="#2E2A4A" stroke-width="4"/> <!-- Lacivert -->
+  <rect x="190" y="380" width="40" height="20" rx="4" fill="#FFC107" stroke="#2E2A4A" stroke-width="4"/> <!-- Sarı -->
+  
+  <!-- Alt kısımdaki katlanmış kıyafetler - daha belirgin -->
+  <rect x="280" y="380" width="40" height="20" rx="4" fill="#2196F3" stroke="#2E2A4A" stroke-width="4"/> <!-- Mavi -->
+  <rect x="330" y="380" width="40" height="20" rx="4" fill="#FFFFFF" stroke="#2E2A4A" stroke-width="4"/> <!-- Beyaz -->
+  
+  <!-- Parlak efekt -->
+  <circle cx="256" cy="256" r="220" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.3" fill="none"/>
+  <circle cx="256" cy="256" r="240" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.2" fill="none"/>
+</svg> 
