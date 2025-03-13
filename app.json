@@ -4,15 +4,14 @@
     "slug": "gardrops",
     "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "scheme": "gardrops",
     "assetBundlePatterns": [
       "**/*"
     ],
     "splash": {
-      "image": "./assets/images/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#4A3F69"
+      "backgroundColor": "#605a64"
     },
     "ios": {
       "supportsTablet": true,
@@ -20,14 +19,34 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/splash-icon.png",
-        "backgroundColor": "#4A3F69"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
       },
-      "package": "com.cankiraz.gardrops",
-      "versionCode": 1
+      "package": "com.gardrops.app",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Uygulamanın kameranıza erişmesi gerekiyor."
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#605a64",
+          "image": "./assets/splash.png",
+          "resizeMode": "contain"
+        }
+      ]
     ],
     "updates": {
       "fallbackToCacheTimeout": 0

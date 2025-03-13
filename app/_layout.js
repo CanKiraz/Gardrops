@@ -1,124 +1,53 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { View, TouchableOpacity, StyleSheet, Platform, Text } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { usePathname, router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Slot } from 'expo-router';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as SplashScreen from 'expo-splash-screen';
+import { View, StyleSheet } from 'react-native';
+import CustomSplashScreen from './SplashScreen';
 
-// Özel Tab Bar bileşeni 
-const CustomTabBar = () => {
-  const pathname = usePathname();
+// Splash ekranının otomatik kapanmasını engelle
+SplashScreen.preventAutoHideAsync();
 
-  return (
-    <View style={styles.navBar}>
-      <TouchableOpacity
-        style={styles.tabButton}
-        onPress={() => {
-          router.push('/');
-        }}
-      >
-        <View style={[
-          styles.tabIconContainer,
-          (pathname === '/' || pathname === '/index') ? styles.activeTab : null
-        ]}>
-          <MaterialCommunityIcons
-            name="home"
-            size={28}
-            color="#FFFFFF"
-          />
-        </View>
-      </TouchableOpacity>
+export default function RootLayout() {
+  const [isReady, setIsReady] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
 
-      <TouchableOpacity
-        style={styles.tabButton}
-        onPress={() => {
-          router.push('/wardrobe');
-        }}
-      >
-        <View style={[
-          styles.tabIconContainer,
-          pathname === '/wardrobe' ? styles.activeTab : null
-        ]}>
-          <Text style={styles.brainEmoji}>🧠</Text>
-        </View>
-      </TouchableOpacity>
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Uygulama hazırlıkları burada yapılır (font yükleme vb.)
+        // Burada beklemek için bir timeout ekleyebiliriz
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Uygulama hazır olduğunda
+        setIsReady(true);
+        // Native splash screen'i kapat
+        await SplashScreen.hideAsync();
+      }
+    }
 
-      <TouchableOpacity
-        style={styles.tabButton}
-        onPress={() => {
-          router.push('/profile');
-        }}
-      >
-        <View style={[
-          styles.tabIconContainer,
-          pathname === '/profile' ? styles.activeTab : null
-        ]}>
-          <MaterialCommunityIcons
-            name="account"
-            size={28}
-            color="#FFFFFF"
-          />
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-};
+    prepare();
+  }, []);
 
-export default function AppLayout() {
-  return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          display: 'none', // Gösterdiğimiz custom tab bar'ı kullanacağız
-        }
-      }}
-      tabBar={(props) => <CustomTabBar {...props} />}
-    >
-      <Tabs.Screen name="index" />
-      <Tabs.Screen name="wardrobe" />
-      <Tabs.Screen name="profile" />
-    </Tabs>
-  );
-}
-
-const styles = StyleSheet.create({
-  navBar: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    height: 60,
-    backgroundColor: '#000000',
-    borderRadius: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 8,
-    paddingHorizontal: 15,
-    zIndex: 10,
-  },
-  tabButton: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: Platform.OS === 'ios' ? 'transparent' : undefined // iOS fix
-  },
-  tabIconContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'transparent'
-  },
-  activeTab: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 20,
-  },
-  brainEmoji: {
-    fontSize: 24,
+  if (!isReady) {
+    return null;
   }
-}); 
+
+  // Eğer hala splash gösteriliyorsa özel splash screen'i göster
+  if (showSplash) {
+    return (
+      <CustomSplashScreen
+        onFinish={() => setShowSplash(false)}
+      />
+    );
+  }
+
+  // Ana uygulamayı göster
+  return (
+    <SafeAreaProvider>
+      <Slot />
+    </SafeAreaProvider>
+  );
+} 

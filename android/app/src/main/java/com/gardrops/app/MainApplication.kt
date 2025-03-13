@@ -1,4 +1,4 @@
-package com.cankiraz.gardrops
+package com.gardrops.app
 
 import android.app.Application
 import android.content.res.Configuration

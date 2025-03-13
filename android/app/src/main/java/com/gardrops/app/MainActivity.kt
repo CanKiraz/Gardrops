@@ -1,4 +1,4 @@
-package com.cankiraz.gardrops
+package com.gardrops.app
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

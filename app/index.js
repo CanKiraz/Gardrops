@@ -4,9 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, usePathname } from 'expo-router';
 import { Camera } from 'expo-camera';
-
-// Kamera tipini belirle
-const CAMERA_TYPE = Camera.Constants?.Type?.back || 0;
+import * as MediaLibrary from 'expo-media-library';
 
 // Kategori Resimleri
 const KATEGORI_IMAGES = {
@@ -149,6 +147,8 @@ export default function Home() {
   const [onayModalVisible, setOnayModalVisible] = useState(false);
   const [basariModalVisible, setBasariModalVisible] = useState(false);
   const cameraRef = useRef(null);
+  const [type, setType] = useState(1); // 1: arka kamera, 0: ön kamera
+  const [hasPermission, setHasPermission] = useState(null);
 
   const screenWidth = Dimensions.get('window').width;
   const pathname = usePathname(); // Aktif sayfayı takip etmek için
@@ -330,22 +330,54 @@ export default function Home() {
     setTumKiyafetleriGoster(false);
   };
 
-  // Yeni kıyafet ekleme işlemi için bilgilendirme modalını aç
-  const yeniKiyafetEkle = async () => {
-    if (bilgilendirmeyiGosterme) {
+  // Kamera izinlerini kontrol et
+  useEffect(() => {
+    (async () => {
       try {
-        // Sadece kamera izni iste
-        const { status } = await Camera.requestCameraPermissionsAsync();
-        
-        if (status === 'granted') {
-          setKameraIzni(true);
-          setKameraAcik(true);
-        } else {
-          Alert.alert('Kamera İzni Gerekli', 'Kıyafet eklemek için kamera izni vermeniz gerekmektedir.');
+        const { status } = await Camera.getCameraPermissionsAsync();
+        setHasPermission(status === 'granted');
+        if (status !== 'granted') {
+          const { status: newStatus } = await Camera.requestCameraPermissionsAsync();
+          setHasPermission(newStatus === 'granted');
+          if (newStatus !== 'granted') {
+            Alert.alert(
+              'Kamera İzni Gerekli',
+              'Kıyafet eklemek için kamera izni vermeniz gerekmektedir.',
+              [{ text: 'Tamam', onPress: () => console.log('İzin reddedildi') }]
+            );
+          }
         }
       } catch (error) {
         console.log("Kamera izni hatası:", error);
         Alert.alert('Hata', 'Kamera izni alınırken bir hata oluştu.');
+      }
+    })();
+  }, []);
+
+  // Yeni kıyafet ekleme işlemi için bilgilendirme modalını aç
+  const yeniKiyafetEkle = async () => {
+    if (bilgilendirmeyiGosterme) {
+      if (hasPermission) {
+        setKameraIzni(true);
+        setKameraAcik(true);
+      } else {
+        try {
+          const { status } = await Camera.requestCameraPermissionsAsync();
+          if (status === 'granted') {
+            setHasPermission(true);
+            setKameraIzni(true);
+            setKameraAcik(true);
+          } else {
+            Alert.alert(
+              'Kamera İzni Gerekli',
+              'Kıyafet eklemek için kamera izni vermeniz gerekmektedir.',
+              [{ text: 'Tamam', onPress: () => console.log('İzin reddedildi') }]
+            );
+          }
+        } catch (error) {
+          console.log("Kamera izni hatası:", error);
+          Alert.alert('Hata', 'Kamera izni alınırken bir hata oluştu.');
+        }
       }
     } else {
       setBilgilendirmeModalVisible(true);
@@ -648,21 +680,27 @@ export default function Home() {
                 style={styles.anladimButon}
                 onPress={async () => {
                   setBilgilendirmeModalVisible(false);
-                  try {
-                    // Sadece kamera izni iste
-                    const { status } = await Camera.requestCameraPermissionsAsync();
-                    
-                    if (status === 'granted') {
-                      setKameraIzni(true);
-                      setTimeout(() => {
+                  if (hasPermission) {
+                    setKameraIzni(true);
+                    setKameraAcik(true);
+                  } else {
+                    try {
+                      const { status } = await Camera.requestCameraPermissionsAsync();
+                      if (status === 'granted') {
+                        setHasPermission(true);
+                        setKameraIzni(true);
                         setKameraAcik(true);
-                      }, 300);
-                    } else {
-                      Alert.alert('Kamera İzni Gerekli', 'Kıyafet eklemek için kamera izni vermeniz gerekmektedir.');
+                      } else {
+                        Alert.alert(
+                          'Kamera İzni Gerekli',
+                          'Kıyafet eklemek için kamera izni vermeniz gerekmektedir.',
+                          [{ text: 'Tamam', onPress: () => console.log('İzin reddedildi') }]
+                        );
+                      }
+                    } catch (error) {
+                      console.log("Kamera izni hatası:", error);
+                      Alert.alert('Hata', 'Kamera izni alınırken bir hata oluştu.');
                     }
-                  } catch (error) {
-                    console.log("Kamera izni hatası:", error);
-                    Alert.alert('Hata', 'Kamera izni alınırken bir hata oluştu.');
                   }
                 }}
               >
@@ -748,13 +786,17 @@ export default function Home() {
           animationType="slide"
           transparent={false}
           visible={true}
-          onRequestClose={() => setKameraAcik(false)}
+          onRequestClose={() => {
+            setKameraAcik(false);
+            setOnFotograf(null);
+            setArkaFotograf(null);
+            setAktifFotograf(1);
+          }}
         >
           <SafeAreaView style={[styles.modalTamEkran, {backgroundColor: '#000'}]}>
             <View style={styles.kameraHeader}>
               <TouchableOpacity 
                 onPress={() => {
-                  console.log("Kamera kapatılıyor...");
                   setKameraAcik(false);
                   setOnFotograf(null);
                   setArkaFotograf(null);
@@ -772,8 +814,16 @@ export default function Home() {
             <View style={styles.kameraContainer}>
               <Camera
                 style={styles.kamera}
-                type={CAMERA_TYPE}
+                type={1}
                 ref={cameraRef}
+                onMountError={(error) => {
+                  console.log("Kamera mount hatası:", error);
+                  Alert.alert(
+                    'Kamera Hatası',
+                    'Kamera başlatılırken bir hata oluştu. Lütfen uygulamayı kapatıp tekrar açın.',
+                    [{ text: 'Tamam', onPress: () => setKameraAcik(false) }]
+                  );
+                }}
               >
                 <View style={{flex: 1}}></View>
                 <View style={styles.kameraAltContainer}>
